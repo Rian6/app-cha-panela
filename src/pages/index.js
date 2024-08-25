@@ -1,7 +1,6 @@
 import Head from "next/head";
 import App from "./Application/App";
 
-
 export default function Home() {
   return (
     <>
@@ -12,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-      <App/>
+        <App />
       </main>
     </>
   );
