@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
-import { database } from "../firebase/firebase"; // Certifique-se de que o Firebase esteja configurado corretamente
+import { database } from "../../../lib/firebase/firebase"; // Certifique-se de que o Firebase esteja configurado corretamente
 import Item from "./item/Item";
 
-export default function Home() {
+export default function Listagem() {
   const [itens, setItens] = useState([]); // Estado para armazenar os itens
   const userId = "usuario_id"; // ID do usuário autenticado (pode vir de autenticação)
 

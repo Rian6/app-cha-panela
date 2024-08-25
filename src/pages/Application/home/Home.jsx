@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Input, Button, Flex, Box } from '@chakra-ui/react';
 import { ref, get } from "firebase/database";
-import { database } from "../firebase/firebase";
+import { database } from "../../../lib/firebase/firebase";
 
 export default function Home(props) {
     const [login, setLogin] = React.useState('');

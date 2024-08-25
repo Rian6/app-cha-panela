@@ -1,6 +1,7 @@
+// components/Item.js
 import * as React from "react";
-import { ref, get, update, push } from "firebase/database";
-import { database } from "../../firebase/firebase";
+import { ref, get, update } from "firebase/database";
+import { database } from "../../../../lib/firebase/firebase";
 import { Button, Paper, Box, Divider, Badge } from "@mui/material";
 
 export default function Item({ itemId, nome, imagem, cores, usuariosSelecionaram, userId }) {
@@ -73,7 +74,7 @@ export default function Item({ itemId, nome, imagem, cores, usuariosSelecionaram
         <>
           <p>Cores de preferência: </p>
           <div style={{ marginLeft: 5, flexDirection: "row", display: "flex" }}>
-            {cores.map((cor, index) => (
+            {cores && cores.map((cor, index) => (
               <div
                 key={index}
                 style={{
@@ -90,7 +91,7 @@ export default function Item({ itemId, nome, imagem, cores, usuariosSelecionaram
         <>
           <p>Pessoas que já selecionaram esse item: </p>
           <div style={{ flexDirection: "column", display: "flex", marginLeft: 20, alignItems: "flex-start" }}>
-            <Badge color="success" badgeContent={usuariosSelecionaram.length} showZero></Badge>
+            <Badge color="success" badgeContent={usuariosSelecionaram ? usuariosSelecionaram.length : 0} showZero></Badge>
           </div>
         </>
       </Box>
