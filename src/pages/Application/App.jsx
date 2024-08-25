@@ -11,7 +11,7 @@ function App(params) {
     { !isLogado ?
       <ChakraProvider>
         <Home setIsLogado={setIsLogado}/>
-      </ChakraProvider>
+      </ChakraProvider> 
       : <Listagem/>
     }
     </>
