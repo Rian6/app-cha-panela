@@ -45,14 +45,14 @@ export default function Item({ itemId, nome, imagem, cores, usuariosSelecionaram
       }}
     >
       <Divider orientation="horizontal" style={{ backgroundColor: "white" }} flexItem />
-      <h3>{nome}</h3>
+      <h3>{nome.toUpperCase()}</h3>
       <Paper
         elevation={4}
-        style={{ width: "90vw", maxWidth: 600, height: 350, marginBottom: 10 }}
+        style={{ width: "90vw", maxWidth: 600, height: 350 }}
       >
         <img
           style={{ height: "100%", width: "100%", objectFit: "cover" }}
-          src={imagem}
+          src={'/produtos/'+nome+'.jpeg'}
           alt={nome}
           loading="lazy"
         />
@@ -66,32 +66,38 @@ export default function Item({ itemId, nome, imagem, cores, usuariosSelecionaram
           borderColor: "divider",
           borderRadius: 1,
           padding: 2,
-          marginBottom: 2,
           width: "90vw",
+          flexDirection: "column",
           maxWidth: 600,
         }}
       >
         <>
-          <p>Cores de preferência: </p>
+          {cores ? <p>Cores de preferência: </p> : <></>}
           <div style={{ marginLeft: 5, flexDirection: "row", display: "flex" }}>
             {cores && cores.map((cor, index) => (
-              <div
+              cor.toLowerCase() != 'transparent' ? 
+                <div
                 key={index}
                 style={{
                   width: 25,
                   height: 25,
                   marginRight: 5,
-                  backgroundColor: cor,
+                  backgroundColor: cor.toLowerCase() == 'black' 
+                    ? '#0e0e0e' 
+                    : cor.toLowerCase() == 'graffiti' 
+                      ? '#626262' 
+                      : cor.toLowerCase() == 'pastel brown' 
+                        ? '#e0ca8a' 
+                        : cor,
                 }}
-              ></div>
-            ))}
+              ></div> : null
+            )) }
           </div>
         </>
-        <Divider orientation="vertical" style={{ backgroundColor: "white" }} flexItem />
         <>
           <p>Pessoas que já selecionaram esse item: </p>
           <div style={{ flexDirection: "column", display: "flex", marginLeft: 20, alignItems: "flex-start" }}>
-            <Badge color="success" badgeContent={usuariosSelecionaram ? usuariosSelecionaram.length : 0} showZero></Badge>
+              <p style={{fontSize: 20, fontWeight: 150, color: 'white'}}>{usuariosSelecionaram ? usuariosSelecionaram.length : 0}</p>
           </div>
         </>
       </Box>
