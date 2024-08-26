@@ -45,7 +45,7 @@ export default function Item({ itemId, nome, imagem, cores, usuariosSelecionaram
       }}
     >
       <Divider orientation="horizontal" style={{ backgroundColor: "white" }} flexItem />
-      <h3>{nome.toUpperCase()}</h3>
+      <h3>{nome ? nome.toUpperCase() : ''}</h3>
       <Paper
         elevation={4}
         style={{ width: "90vw", maxWidth: 600, height: 350 }}
