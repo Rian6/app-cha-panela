@@ -1,15 +1,26 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
-import { database } from "../../../lib/firebase/firebase"; // Certifique-se de que o Firebase esteja configurado corretamente
+import { database } from "../../../lib/firebase/firebase";
 import Item from "./item/Item";
+import { Container, Typography, CircularProgress, Grid, Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const Header = styled(Box)(({ theme }) => ({
+  background: 'linear-gradient(to bottom, #8cbb6f, black)',// Degradê rosa para preto
+  padding: theme.spacing(4),
+  borderRadius: theme.shape.borderRadius,
+  marginBottom: theme.spacing(4),
+  textAlign: 'center',
+  color: theme.palette.common.white,
+}));
 
 export default function Listagem() {
   const [itens, setItens] = useState([]); // Estado para armazenar os itens
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
   const userId = "usuario_id"; // ID do usuário autenticado (pode vir de autenticação)
 
   useEffect(() => {
-    // Função para buscar os itens do Firebase
     const fetchItens = async () => {
       try {
         const itensRef = ref(database, "itens"); // Referência ao nó "itens" no Firebase
@@ -26,6 +37,8 @@ export default function Listagem() {
         }
       } catch (error) {
         console.error("Erro ao buscar itens: ", error);
+      } finally {
+        setLoading(false); // Finaliza o carregamento
       }
     };
 
@@ -33,27 +46,39 @@ export default function Listagem() {
   }, []);
 
   return (
-    <div style={{ maxWidth: "100vw", margin: 20 }}>
-      <p style={{ fontWeight: "700", width: 300 }}>
-        Selecione os itens que você pretende dar, lembrando que os itens da lista são itens de sugestão, qualquer coisa fora da lista é muito bem-vinda.
-      </p>
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
+      <Header>
+        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
+          Escolha Seus Itens
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Selecione os itens que você pretende dar. Lembre-se, os itens da lista são sugestões, e qualquer coisa fora da lista também é muito bem-vinda!
+        </Typography>
+      </Header>
 
-      {/* Renderiza os itens se houver dados */}
-      {itens.length > 0 ? (
-        itens.map((item) => (
-          <Item
-            key={item.id}
-            itemId={item.id}
-            nome={item.nome}
-            imagem={item.imagem}
-            cores={item.cores}
-            usuariosSelecionaram={item.usuariosSelecionaram}
-            userId={userId} // Passa o ID do usuário autenticado
-          />
-        ))
+      {/* Exibe o indicador de carregamento ou a lista de itens */}
+      {loading ? (
+        <CircularProgress sx={{ display: 'block', margin: '0 auto' }} /> // Indicador de progresso centralizado
+      ) : itens.length > 0 ? (
+        <Grid container spacing={4}>
+          {itens.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <Item
+                itemId={item.id}
+                nome={item.nome}
+                imagem={item.imagem}
+                cores={item.cores}
+                usuariosSelecionaram={item.usuariosSelecionaram}
+                userId={userId} // Passa o ID do usuário autenticado
+              />
+            </Grid>
+          ))}
+        </Grid>
       ) : (
-        <p>Carregando itens...</p> // Mensagem de carregamento enquanto os itens são buscados
+        <Typography variant="body1" component="p" align="center">
+          Nenhum item encontrado.
+        </Typography>
       )}
-    </div>
+    </Container>
   );
 }
